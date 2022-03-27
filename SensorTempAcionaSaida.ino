@@ -53,7 +53,6 @@ lcd.print(sensors.getDeviceCount(),DEC);
 void loop()
 {
 
-    
     //le temperatura do sensor
    sensors.requestTemperatures();
    temperatura_atual = sensors.getTempCByIndex(0);
@@ -61,15 +60,24 @@ void loop()
    lcd.print(temperatura_atual,1);
 
    estado_botao_liga_bomba = digitalRead(botao_liga_bomba);
-
    lcd.setCursor(15,1);
    lcd.print(estado_botao_liga_bomba);
+
+   if (estado_botao_liga_bomba == 0)
+   {
+     digitalWrite(saida_liga_bomba,HIGH);      
+   }
+   if (estado_botao_liga_bomba == 1)
+   {
+     digitalWrite(saida_liga_bomba,LOW);     
+   }
+   
 
    if (temperatura_atual>40) 
    {
     digitalWrite(saida_liga_bomba,LOW); 
     lcd.setCursor(13,1);
-    lcd.print(estado_saida_liga_bomba);   
+    lcd.print(estado_saida_liga_bomba);
    }
   
    if (temperatura_atual<40)
@@ -78,7 +86,9 @@ void loop()
     lcd.setCursor(13,1);   
     lcd.print(estado_saida_liga_bomba);
    }
+   
+    lcd.setCursor(15,1);
+    lcd.print(estado_botao_liga_bomba);
 
-      
-     
+   
 }
