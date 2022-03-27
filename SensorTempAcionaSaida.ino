@@ -16,6 +16,7 @@ bool estado_saida_liga_bomba;
 
 float temperatura_atual = 0;
 
+
 OneWire oneWire(entrada_temp_1);
 DallasTemperature sensors(&oneWire);
 
@@ -39,12 +40,6 @@ pinMode(botao_liga_bomba,INPUT);
 lcd.setCursor(0,0);
 lcd.print("Temp Sensor Bomb");
 //         01234567890123456
-    
-lcd.setCursor(12,1);
-lcd.print("S");
-
-lcd.setCursor(14,1);
-lcd.print("B");
 
 lcd.setCursor(5,1);
 lcd.print(sensors.getDeviceCount(),DEC);
@@ -60,35 +55,27 @@ void loop()
    lcd.print(temperatura_atual,1);
 
    estado_botao_liga_bomba = digitalRead(botao_liga_bomba);
-   lcd.setCursor(15,1);
-   lcd.print(estado_botao_liga_bomba);
-
-   if (estado_botao_liga_bomba == 0)
-   {
-     digitalWrite(saida_liga_bomba,HIGH);      
-   }
-   if (estado_botao_liga_bomba == 1)
-   {
-     digitalWrite(saida_liga_bomba,LOW);     
-   }
-   
 
    if (temperatura_atual>40) 
    {
-    digitalWrite(saida_liga_bomba,LOW); 
-    lcd.setCursor(13,1);
-    lcd.print(estado_saida_liga_bomba);
+    digitalWrite(saida_liga_bomba,LOW);
+
+    if (estado_botao_liga_bomba == 1)
+      {
+      digitalWrite(saida_liga_bomba,HIGH);     
+      }
    }
   
    if (temperatura_atual<40)
    {
     digitalWrite(saida_liga_bomba,HIGH);
-    lcd.setCursor(13,1);   
-    lcd.print(estado_saida_liga_bomba);
+       
+       if (estado_botao_liga_bomba == 1)
+        {
+        digitalWrite(saida_liga_bomba,LOW);     
+        }
    }
-   
-    lcd.setCursor(15,1);
+    lcd.setCursor(12,1);
     lcd.print(estado_botao_liga_bomba);
-
    
 }
